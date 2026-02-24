@@ -323,7 +323,7 @@ body::before {
   border-radius: 12px;
   border: 1px solid var(--border);
   max-width: 280px;
-  
+  border-radius: 25%;
   margin: 0 auto;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
