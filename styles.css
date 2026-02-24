@@ -313,7 +313,7 @@ body::before {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 28px;
   margin-top: 36px;
-  max-width: 1200px;
+  
   margin-left: auto;
   margin-right: auto;
 }
@@ -447,6 +447,7 @@ footer {
     width: min(260px, 75vw);
   }
 }
+
 
 
 
