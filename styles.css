@@ -260,7 +260,7 @@ body::before {
 
 /* Pages */
 .page-section {
-  max-width: 900px;
+  max-width: 1350px;
   margin: 60px auto;
   padding: 24px;
   text-align: center;
@@ -447,5 +447,6 @@ footer {
     width: min(260px, 75vw);
   }
 }
+
 
 
