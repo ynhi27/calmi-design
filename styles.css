@@ -108,7 +108,7 @@ body {
 /* Team */
 .team {
   text-align: center;
-  padding: 60px 20px;
+  padding: 30px 20px;
   background-color: #f9fafb;
 }
 
@@ -131,7 +131,7 @@ body {
   width: 180px;
   height: 180px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 75%;
   margin-bottom: 15px;
 }
 
@@ -198,6 +198,7 @@ footer {
   font-size: 1.3rem;
   margin-bottom: 25px;
 }
+
 
 
 
