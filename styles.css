@@ -106,6 +106,12 @@ body {
 }
 
 /* Team */
+.team {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f9fafb;
+}
+
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -183,5 +189,6 @@ footer {
   font-size: 1.3rem;
   margin-bottom: 25px;
 }
+
 
 
