@@ -14,48 +14,82 @@
       <li><a href="about.html">Product</a></li>
       <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="demo.html">Try Demo</a></li>
     </ul>
   </nav>
 
   <section class="page-section">
     <h1>Meet Our Team</h1>
 
-    <div class="team-grid">
-      <div class="member">
-        <img src="images/patrick.png" alt="Member 4">
-        <h3>Patrick Michael Lopata</h3>
-        <p>Research Lead</p>
-      </div>
+    <div class="team-grid team-grid-4">
 
       <div class="member">
-        <img src="images/chelsea.png" alt="Member 3">
+        <img src="images/chelsea.png" alt="Chelsea C. Luong">
         <h3>Chelsea C. Luong</h3>
-        <p>Team Lead</p>
-      </div>
-      
-      <div class="member">
-        <img src="images/hokulani.png" alt="Member 2">
-        <h3>Hokulani Dawn Lan Topping</h3>
-        <p>Product Lead</p>
+        <p class="member-role">Team Lead</p>
+        <ul class="member-contributions">
+          <li>Coordinated cross-functional sprints and milestone planning</li>
+          <li>Defined product vision and roadmap</li>
+          <li>Led stakeholder presentations and pitch deck</li>
+        </ul>
       </div>
 
-       <div class="member">
-        <img src="images/ynhi.png" alt="Member 1">
+      <div class="member">
+        <img src="images/patrick.png" alt="Patrick Michael Lopata">
+        <h3>Patrick Michael Lopata</h3>
+        <p class="member-role">Research Lead</p>
+        <ul class="member-contributions">
+          <li>Designed and conducted user surveys on grief & digital tools</li>
+          <li>Synthesized qualitative findings into product insights</li>
+          <li>Authored literature review on adolescent bereavement</li>
+        </ul>
+      </div>
+
+      <div class="member">
+        <img src="images/hokulani.png" alt="Hokulani Dawn Lan Topping">
+        <h3>Hokulani Dawn Lan Topping</h3>
+        <p class="member-role">Product Lead</p>
+        <ul class="member-contributions">
+          <li>Designed end-to-end user experience and conversation flows</li>
+          <li>Created wireframes and Figma prototypes</li>
+          <li>Led usability testing and iterated on feedback</li>
+        </ul>
+      </div>
+
+      <div class="member">
+        <img src="images/ynhi.png" alt="Y Nhi Tran">
         <h3>Y Nhi Tran</h3>
-        <p>Technology Lead</p>
-      </div>     
-      
+        <p class="member-role">Technology Lead</p>
+        <ul class="member-contributions">
+          <li>Built the CALMI web interface and component system</li>
+          <li>Integrated NLP emotion-recognition pipeline</li>
+          <li>Managed deployment and technical infrastructure</li>
+        </ul>
+      </div>
+
     </div>
   </section>
 
   <footer>
     <p>© 2026 CALMI. All Rights Reserved.</p>
   </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => {
+          toggle.classList.remove('open');
+          links.classList.remove('open');
+        })
+      );
+    }
+  </script>
+  
 </body>
-
 </html>
-
-
-
-
-

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Try CALMI | Interactive Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Demo page wrapper ── */
+    .demo-section {
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 0 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .demo-section h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 6px;
+      background: linear-gradient(180deg, #fff 0%, var(--text-muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .demo-section .demo-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+    }
+
+    /* ── Phone shell ── */
+    .phone {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      box-shadow:
+        0 0 60px rgba(0, 212, 255, 0.12),
+        0 0 120px rgba(224, 64, 251, 0.06),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 680px;
+    }
+
+    /* ── Status bar ── */
+    .phone-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px 4px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    /* ── Chat header ── */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .calmi-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info h4 {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0 0 2px;
+      color: var(--text-primary);
+    }
+
+    .online-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4cff91;
+      margin-right: 5px;
+      box-shadow: 0 0 6px #4cff91;
+    }
+
+    .chat-header-info span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Messages ── */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 80%;
+      animation: fadeUp 0.3s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.calmi { align-self: flex-start; }
+    .msg.user  { align-self: flex-end; }
+
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      font-family: var(--font-body);
+    }
+
+    .msg.calmi .msg-bubble {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    .msg.user .msg-bubble {
+      background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(224,64,251,0.15));
+      border: 1px solid rgba(0,212,255,0.25);
+      border-bottom-right-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    .msg-time {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      padding: 0 4px;
+    }
+
+    .msg.user .msg-time { align-self: flex-end; }
+
+    /* Typing indicator */
+    .typing-bubble {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 16px;
+    }
+
+    .typing-bubble span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-cyan-dim);
+      animation: blink 1.2s infinite ease-in-out;
+    }
+
+    .typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.3; transform: scale(1); }
+      40%            { opacity: 1;   transform: scale(1.2); }
+    }
+
+    /* ── Quick replies ── */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 8px 16px;
+      flex-shrink: 0;
+    }
+
+    .qr {
+      background: transparent;
+      border: 1px solid var(--accent-cyan-dim);
+      color: var(--accent-cyan);
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .qr:hover {
+      background: rgba(0,212,255,0.1);
+      box-shadow: 0 0 12px rgba(0,212,255,0.2);
+    }
+
+    /* ── Input bar ── */
+    .chat-input-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 10px 16px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .chat-input::placeholder { color: var(--text-muted); }
+
+    .chat-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+
+    .send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+      color: var(--bg-deep);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 0 16px rgba(0,212,255,0.3);
+    }
+
+    .send-btn:hover {
+      box-shadow: 0 0 24px rgba(0,212,255,0.5);
+      transform: scale(1.07);
+    }
+
+    /* ── Disclaimer ── */
+    .demo-note {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <h2 class="logo">CALMI</h2>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">Product</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="demo.html">Try Demo</a></li>
+    </ul>
+  </nav>
+
+  <div class="demo-section">
+    <h1>Try CALMI</h1>
+    <p class="demo-sub">An interactive preview of your remembrance companion.</p>
+
+    <div class="phone">
+      <!-- Status bar -->
+      <div class="phone-status">
+        <span id="clock">9:41</span>
+        <span>● ● ●</span>
+      </div>
+
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="calmi-avatar">
+          <img src="images/calmi.png" alt="">
+        </div>
+        <div class="chat-header-info">
+          <h4>CALMI</h4>
+          <span><span class="online-dot"></span>Always here</span>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <!-- Quick replies -->
+      <div class="quick-replies" id="quickReplies"></div>
+
+      <!-- Input -->
+      <div class="chat-input-bar">
+        <input
+          class="chat-input"
+          id="chatInput"
+          type="text"
+          placeholder="Type a message…"
+          autocomplete="off"
+        >
+        <button class="send-btn" id="sendBtn">➤</button>
+      </div>
+    </div>
+
+    <p class="demo-note">This is a scripted demo. The full CALMI experience uses AI-powered conversation.<br>
+      <a href="https://docs.google.com/forms/d/1u--4lO0Mme1MExjLRsgUja7HMF2YsxgxfcS31DDlOsg/viewform"
+         target="_blank" rel="noopener noreferrer"
+         style="color: var(--accent-cyan); text-decoration: none;">Join the waitlist</a> to be the first to try it.
+    </p>
+  </div>
+
+  <footer>
+    <p>© 2026 CALMI. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // ── Conversation script ──────────────────────
+    const FLOW = [
+      {
+        from: 'calmi',
+        text: "Hi, I'm CALMI. I'm here to help you hold onto the people who matter most. Who would you like to remember today?",
+        replies: ["My grandmother", "My best friend", "Someone else"]
+      },
+      {
+        from: 'calmi',
+        text: "Thank you for sharing that with me. It takes courage to open up. What's one thing you loved most about them?",
+        replies: ["Their laugh", "Their advice", "The way they made me feel safe", "Their stories"]
+      },
+      {
+        from: 'calmi',
+        text: "That's a beautiful memory 💙 Do you have a favourite moment you shared together that you'd like to keep close?",
+        replies: ["Yes, I'd like to share it", "I'm not ready yet", "I want to remember something else"]
+      },
+      {
+        from: 'calmi',
+        text: "Whenever you're ready, this space is just for you — no pressure, no rush. How are you feeling right now?",
+        replies: ["Sad but grateful", "I miss them a lot", "I feel peaceful", "I'm not sure"]
+      },
+      {
+        from: 'calmi',
+        text: "Whatever you're feeling is completely okay. Grief isn't something to fix — it's something to carry with care. I'll be here every time you want to remember, reflect, or just feel close to them again. 🌷",
+        replies: ["Thank you, CALMI", "Tell me more about what you can do", "Join the waitlist"]
+      },
+      {
+        from: 'calmi',
+        text: "Thank you for spending this moment with me 💙 CALMI is still growing. Join the waitlist to be among the first to experience the full companion.",
+        replies: []
+      }
+    ];
+
+    let step = 0;
+    const messagesEl = document.getElementById('chatMessages');
+    const quickRepliesEl = document.getElementById('quickReplies');
+    const inputEl = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function getTime() {
+      const now = new Date();
+      return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    }
+
+    function addMessage(text, role, delay = 0) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const msg = document.createElement('div');
+          msg.className = `msg ${role}`;
+          msg.innerHTML = `
+            <div class="msg-bubble">${text}</div>
+            <span class="msg-time">${getTime()}</span>
+          `;
+          messagesEl.appendChild(msg);
+          messagesEl.scrollTop = messagesEl.scrollHeight;
+          resolve();
+        }, delay);
+      });
+    }
+
+    function showTyping() {
+      const typing = document.createElement('div');
+      typing.className = 'msg calmi';
+      typing.id = 'typingIndicator';
+      typing.innerHTML = `<div class="msg-bubble typing-bubble"><span></span><span></span><span></span></div>`;
+      messagesEl.appendChild(typing);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('typingIndicator');
+      if (t) t.remove();
+    }
+
+    function setQuickReplies(replies) {
+      quickRepliesEl.innerHTML = '';
+      replies.forEach(r => {
+        const btn = document.createElement('button');
+        btn.className = 'qr';
+        btn.textContent = r;
+        btn.onclick = () => handleReply(r);
+        quickRepliesEl.appendChild(btn);
+      });
+    }
+
+    async function calmiRespond() {
+      if (step >= FLOW.length) return;
+      const node = FLOW[step];
+      setQuickReplies([]);
+      showTyping();
+      await new Promise(r => setTimeout(r, 1000 + node.text.length * 10));
+      removeTyping();
+      await addMessage(node.text, 'calmi');
+      step++;
+      if (node.replies && node.replies.length) {
+        setQuickReplies(node.replies);
+      }
+    }
+
+    async function handleReply(text) {
+      setQuickReplies([]);
+      if (text === "Join the waitlist") {
+        window.open('https://docs.google.com/forms/d/1u--4lO0Mme1MExjLRsgUja7HMF2YsxgxfcS31DDlOsg/viewform', '_blank');
+        return;
+      }
+      await addMessage(text, 'user');
+      setTimeout(calmiRespond, 400);
+    }
+
+    async function handleSend() {
+      const text = inputEl.value.trim();
+      if (!text) return;
+      inputEl.value = '';
+      setQuickReplies([]);
+      await addMessage(text, 'user');
+      setTimeout(calmiRespond, 400);
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
+
+    // Live clock
+    function updateClock() {
+      document.getElementById('clock').textContent = getTime();
+    }
+    setInterval(updateClock, 30000);
+    updateClock();
+
+    // Start
+    calmiRespond();
+
+     // Hamburger menu
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => {
+          toggle.classList.remove('open');
+          links.classList.remove('open');
+        })
+      );
+    }
+  </script>
+</body>
+</html>

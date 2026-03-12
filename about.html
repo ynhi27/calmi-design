@@ -14,53 +14,182 @@
       <li><a href="about.html">Product</a></li>
       <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="demo.html">Try Demo</a></li>
     </ul>
   </nav>
 
   <section class="page-section">
     <h1>Our Product</h1>
 
-    <div class="content-box">
-      <h3>What is CALMI?</h3>
-      <p>CALMI is a grief bot designed for <strong>remembrance</strong>—not to heal or replace grief, but to help you keep your loved ones present. It’s a companion that supports you in preserving their stories, their voice, and your connection to them over time.</p>
+    <!-- Top 3 overview boxes -->
+    <div class="content-grid-top">
+      <div class="content-box">
+        <h3>What is CALMI?</h3>
+        <p>CALMI is a grief companion designed for <strong>remembrance</strong>—not to heal or replace grief, but to help you keep your loved ones present. It's a companion that supports you in preserving their stories, their voice, and your connection to them over time.</p>
+      </div>
+      <div class="content-box">
+        <h3>Who Is CALMI For?</h3>
+        <p>Anyone who has lost someone significant and wants a gentle, ongoing way to remember them—whether the loss was recent or years ago. CALMI is for people who wish they could still talk to that person, ask for advice, or simply feel their presence.</p>
+      </div>
+      <div class="content-box">
+        <h3>How CALMI Helps</h3>
+        <p>CALMI helps you maintain a lasting connection through conversation, memories, and rituals. It's there when you want to remember, reflect, or feel close to someone you've lost—on your terms, in your own space.</p>
+      </div>
     </div>
 
-    <div class="content-box">
-      <h3>Who Is CALMI For?</h3>
-      <p>Anyone who has lost someone significant and wants a gentle, ongoing way to remember them—whether the loss was recent or years ago. CALMI is for people who wish they could still talk to that person, ask for advice, or simply feel their presence.</p>
+    <!-- How it works — stepped layout -->
+    <div class="content-box how-it-works">
+      <h3>How CALMI Works</h3>
+      <div class="steps-grid">
+        <div class="step">
+          <span class="step-number">01</span>
+          <h4>A Safe Conversation Space</h4>
+          <p>Users interact with CALMI through a chat-based interface, similar to messaging apps they already use daily. There is no pressure, no expectation — just space to talk.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">02</span>
+          <h4>Emotion Recognition</h4>
+          <p>CALMI uses natural language processing to understand emotional tone — such as sadness, confusion, guilt, or anger — and responds with supportive, age-appropriate guidance.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">03</span>
+          <h4>Guided Reflection</h4>
+          <p>Instead of giving advice, CALMI gently asks questions that encourage reflection, helping users process their emotions in a healthy and constructive way.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">04</span>
+          <h4>Resource Suggestions</h4>
+          <p>When needed, CALMI suggests coping exercises, journaling prompts, breathing techniques, or professional resources appropriate for young people.</p>
+        </div>
+      </div>
     </div>
 
-    <div class="content-box">
-      <h3>How CALMI Helps</h3>
-      <p>CALMI helps you maintain a lasting connection through conversation, memories, and rituals. It’s there when you want to remember, reflect, or feel close to someone you’ve lost—on your terms, in your own space.</p>
-
-    </div>
-
-    <div class="content-box">
-      <h3>How CALMI Woks</h3>
-      
-      <h4>1. A Safe Conversation Space</h4>
-      <p>Users interact with CALMI through a chat-based interface, similar to messaging apps they already use daily. There is no pressure, no expectation — just space to talk.</p>
-      
-      <h4>2. Emotion Recognition</h4>
-      <p>CALMI uses natural language processing to understand emotional tone — such as sadness, confusion, guilt, or anger — and responds with supportive, age-appropriate guidance.
-
-      <h4>3. Guided Reflection</h4>
-      <p>Instead of giving advice, CALMI gently asks questions that encourage reflection, helping users process their emotions in a healthy and constructive way.</p>
-
-      <h4>4. Resource Suggestions</h4>
-      <p>When needed, CALMI suggests coping exercises, journaling prompts, breathing techniques, or professional resources appropriate for young people.</p>
-    </p>
-    </div>
-    
-    <p style="margin-top: 2rem;">
-      <a href="https://docs.google.com/forms/d/1u--4lO0Mme1MExjLRsgUja7HMF2YsxgxfcS31DDlOsg/viewform" target="_blank" rel="noopener noreferrer" class="btn-waitlist">Get on waitlist</a>
+    <p class="cta-wrap">
+      <a href="https://docs.google.com/forms/d/1u--4lO0Mme1MExjLRsgUja7HMF2YsxgxfcS31DDlOsg/viewform"
+         target="_blank" rel="noopener noreferrer" class="btn-waitlist">
+        ♥ Get on Waitlist
+      </a>
     </p>
   </section>
 
   <footer>
     <p>© 2026 CALMI. All Rights Reserved.</p>
   </footer>
+
+  <script>
+    // ── Counter animation for stat numbers ──────
+    function animateCounters() {
+      document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+        const target = parseFloat(el.dataset.target);
+        const decimals = parseInt(el.dataset.decimal || '0');
+        const duration = 1400;
+        const start = performance.now();
+        function step(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = (target * ease).toFixed(decimals);
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = target.toFixed(decimals);
+        }
+        requestAnimationFrame(step);
+      });
+    }
+ 
+    // ── Animate bars ────────────────────────────
+    function animateBars() {
+      document.querySelectorAll('.bar-fill[data-width]').forEach(el => {
+        setTimeout(() => { el.style.width = el.dataset.width + '%'; }, 100);
+      });
+    }
+ 
+    // ── Build intensity histogram ───────────────
+    // Raw scores from survey (blank = excluded): 1,1,1,4,5,9,1,8,1,2,3,3,3,7,2,8,1,1
+    const intensityData = {
+      1: 5, 2: 2, 3: 3, 4: 1, 5: 1, 6: 0, 7: 1, 8: 2, 9: 1, 10: 0
+    };
+    const maxCount = Math.max(...Object.values(intensityData));
+    const chartEl = document.getElementById('intensityChart');
+    for (let i = 1; i <= 10; i++) {
+      const count = intensityData[i] || 0;
+      const heightPct = maxCount > 0 ? (count / maxCount) * 100 : 0;
+      const col = document.createElement('div');
+      col.className = 'intensity-col';
+      col.innerHTML = `
+        <div class="intensity-bar" data-h="${heightPct}" style="height:0;min-height:${count>0?4:0}px"></div>
+        <span class="intensity-num">${i}</span>
+      `;
+      chartEl.appendChild(col);
+    }
+ 
+    function animateIntensity() {
+      document.querySelectorAll('.intensity-bar[data-h]').forEach(el => {
+        setTimeout(() => { el.style.height = el.dataset.h + '%'; }, 100);
+      });
+    }
+ 
+    // ── Intersection Observer — trigger on scroll ─
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          animateBars();
+          animateIntensity();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+ 
+    observer.observe(document.querySelector('.research-section'));
+ 
+    // Hamburger menu
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => {
+          toggle.classList.remove('open');
+          links.classList.remove('open');
+        })
+      );
+    }
+    
+    // ── Fetch live data from Google Apps Script ───
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwr1Ujhwv1OYoxA-IgQOLpGB4z5qxiKWC8Q3_QaXtcikk8JJPNARpCKKXXN2_PONS5E/exec';
+
+    fetch(SHEET_URL)
+      .then(r => r.json())
+      .then(data => {
+        // Update stats-card with newest data
+        if (data.pctLost)
+          document.querySelector('[data-target="85"]').dataset.target = data.pctLost;
+        if (data.pctWantToTalk)
+          document.querySelector('[data-target="78"]').dataset.target = data.pctWantToTalk;
+        if (data.avgIntensity)
+          document.querySelector('[data-target="4.2"]').dataset.target = data.avgIntensity;
+        if (data.totalResponses)
+          document.getElementById('responseCount').textContent = data.totalResponses + ' responses';
+      })
+      .catch(() => {
+        // If fetch fails, keep the fixed data, nothing to do.
+      })
+      .finally(() => {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              animateCounters();
+              animateBars();
+              animateIntensity();
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+
+        observer.observe(document.querySelector('.research-section'));
+      });
+  </script>
 </body>
 </html>
-
