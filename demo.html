@@ -6,18 +6,18 @@
   <title>Try CALMI | Interactive Demo</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* ── Demo page wrapper ── */
+    /* ══ Page wrapper ══════════════════════════════ */
     .demo-section {
       max-width: 480px;
-      margin: 60px auto;
-      padding: 0 20px 80px;
+      margin: 48px auto 80px;
+      padding: 0 20px;
       position: relative;
       z-index: 1;
     }
 
     .demo-section h1 {
       font-family: var(--font-display);
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 600;
       text-align: center;
       margin-bottom: 6px;
@@ -27,14 +27,14 @@
       background-clip: text;
     }
 
-    .demo-section .demo-sub {
+    .demo-sub {
       text-align: center;
       color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 32px;
+      font-size: 0.92rem;
+      margin-bottom: 28px;
     }
 
-    /* ── Phone shell ── */
+    /* ══ Phone shell ═══════════════════════════════ */
     .phone {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -49,7 +49,6 @@
       height: 680px;
     }
 
-    /* ── Status bar ── */
     .phone-status {
       display: flex;
       justify-content: space-between;
@@ -63,25 +62,237 @@
       flex-shrink: 0;
     }
 
-    /* ── Chat header ── */
+    /* ══ Onboarding screens ════════════════════════ */
+    .onboarding {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 28px 24px;
+      gap: 0;
+    }
+
+    /* Slide transition */
+    .ob-slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      animation: slideIn 0.35s ease forwards;
+    }
+
+    .ob-slide.active { display: flex; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .ob-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #000;
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 20px rgba(0,212,255,0.2);
+    }
+
+    .ob-avatar img {
+      width: 130%;
+      height: 130%;
+      object-fit: cover;
+      object-position: 50% 20%;
+      mix-blend-mode: lighten;
+    }
+
+    .ob-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 6px;
+      text-align: center;
+    }
+
+    .ob-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.55;
+      margin: 0 0 24px;
+    }
+
+    /* Onboarding inputs */
+    .ob-input {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .ob-input::placeholder { color: var(--text-muted); }
+
+    .ob-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.12);
+    }
+
+    .ob-error {
+      font-size: 0.78rem;
+      color: var(--accent-heart);
+      margin: -6px 0 10px;
+      align-self: flex-start;
+      display: none;
+    }
+
+    .ob-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+      color: var(--bg-deep);
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 0 20px rgba(0,212,255,0.3);
+      margin-top: 4px;
+    }
+
+    .ob-btn:hover {
+      box-shadow: 0 0 32px rgba(0,212,255,0.5);
+      transform: translateY(-1px);
+    }
+
+    .ob-skip {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 10px;
+      padding: 11px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .ob-skip:hover {
+      border-color: var(--accent-cyan-dim);
+      color: var(--accent-cyan);
+    }
+
+    /* Progress dots */
+    .ob-dots {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .ob-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .ob-dot.active {
+      background: var(--accent-cyan);
+      transform: scale(1.3);
+    }
+
+    /* Voice record button */
+    .voice-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-magenta);
+      background: rgba(224,64,251,0.08);
+      color: var(--accent-magenta);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 8px auto 16px;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+
+    .voice-btn:hover, .voice-btn.recording {
+      background: rgba(224,64,251,0.18);
+      box-shadow: 0 0 24px rgba(224,64,251,0.4);
+      transform: scale(1.05);
+    }
+
+    .voice-btn.recording {
+      animation: recordPulse 1s infinite;
+      border-color: var(--accent-heart);
+      color: var(--accent-heart);
+    }
+
+    @keyframes recordPulse {
+      0%, 100% { box-shadow: 0 0 12px rgba(255,51,102,0.4); }
+      50%       { box-shadow: 0 0 32px rgba(255,51,102,0.7); }
+    }
+
+    .voice-status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 16px;
+      min-height: 20px;
+    }
+
+    .voice-name-input {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .voice-name-input:focus {
+      border-color: var(--accent-magenta);
+      box-shadow: 0 0 0 3px rgba(224,64,251,0.1);
+    }
+
+    /* ══ Chat UI (same as demo-embed) ══════════════ */
+    .chat-screen {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-screen.active { display: flex; }
+
     .chat-header {
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 10px 20px 14px;
       border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .calmi-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
       flex-shrink: 0;
     }
 
@@ -95,8 +306,7 @@
 
     .online-dot {
       display: inline-block;
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: #4cff91;
       margin-right: 5px;
@@ -108,7 +318,6 @@
       color: var(--text-muted);
     }
 
-    /* ── Messages ── */
     .chat-messages {
       flex: 1;
       overflow-y: auto;
@@ -170,7 +379,6 @@
 
     .msg.user .msg-time { align-self: flex-end; }
 
-    /* Typing indicator */
     .typing-bubble {
       display: flex;
       align-items: center;
@@ -179,8 +387,7 @@
     }
 
     .typing-bubble span {
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--accent-cyan-dim);
       animation: blink 1.2s infinite ease-in-out;
@@ -194,7 +401,6 @@
       40%            { opacity: 1;   transform: scale(1.2); }
     }
 
-    /* ── Quick replies ── */
     .quick-replies {
       display: flex;
       flex-wrap: wrap;
@@ -222,7 +428,6 @@
       box-shadow: 0 0 12px rgba(0,212,255,0.2);
     }
 
-    /* ── Input bar ── */
     .chat-input-bar {
       display: flex;
       align-items: center;
@@ -253,8 +458,7 @@
     }
 
     .send-btn {
-      width: 38px;
-      height: 38px;
+      width: 38px; height: 38px;
       border-radius: 50%;
       border: none;
       background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
@@ -274,25 +478,32 @@
       transform: scale(1.07);
     }
 
-    /* ── Disclaimer ── */
+    /* ══ Note below phone ══════════════════════════ */
     .demo-note {
       text-align: center;
       color: var(--text-muted);
       font-size: 0.78rem;
       margin-top: 20px;
-      line-height: 1.5;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 520px) {
+      .phone { height: calc(100svh - 160px); min-height: 520px; }
+      .demo-section { margin-top: 24px; }
     }
   </style>
 </head>
 <body>
   <nav class="navbar">
     <h2 class="logo">CALMI</h2>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">Product</a></li>
       <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="demo.html">Try Demo</a></li>
     </ul>
   </nav>
 
@@ -307,40 +518,95 @@
         <span>● ● ●</span>
       </div>
 
-      <!-- Header -->
-      <div class="chat-header">
-        <div class="calmi-avatar">
-          <img src="images/calmi.png" alt="">
+      <!-- ══ ONBOARDING ══════════════════════════ -->
+      <div class="onboarding" id="onboarding">
+
+        <!-- Step 1: Email -->
+        <div class="ob-slide active" id="slide-email">
+          <div class="ob-avatar">
+            <img src="images/calmi.png" alt="CALMI">
+          </div>
+          <div class="ob-dots">
+            <div class="ob-dot active"></div>
+            <div class="ob-dot"></div>
+            <div class="ob-dot"></div>
+          </div>
+          <p class="ob-title">Welcome to CALMI</p>
+          <p class="ob-desc">A safe space to remember and stay connected with the people who mattered most.</p>
+          <input class="ob-input" id="emailInput" type="email" placeholder="Enter your email" autocomplete="email">
+          <span class="ob-error" id="emailError">Please enter a valid email.</span>
+          <button class="ob-btn" id="emailNext">Continue →</button>
         </div>
-        <div class="chat-header-info">
-          <h4>CALMI</h4>
-          <span><span class="online-dot"></span>Always here</span>
+
+        <!-- Step 2: Name -->
+        <div class="ob-slide" id="slide-name">
+          <div class="ob-avatar">
+            <img src="images/calmi.png" alt="CALMI">
+          </div>
+          <div class="ob-dots">
+            <div class="ob-dot"></div>
+            <div class="ob-dot active"></div>
+            <div class="ob-dot"></div>
+          </div>
+          <p class="ob-title">Nice to meet you 💙</p>
+          <p class="ob-desc">What would you like CALMI to call you?</p>
+          <input class="ob-input" id="nameInput" type="text" placeholder="Your first name" autocomplete="given-name">
+          <span class="ob-error" id="nameError">Please enter your name.</span>
+          <button class="ob-btn" id="nameNext">Continue →</button>
+        </div>
+
+        <!-- Step 3: Voice -->
+        <div class="ob-slide" id="slide-voice">
+          <div class="ob-avatar">
+            <img src="images/calmi.png" alt="CALMI">
+          </div>
+          <div class="ob-dots">
+            <div class="ob-dot"></div>
+            <div class="ob-dot"></div>
+            <div class="ob-dot active"></div>
+          </div>
+          <p class="ob-title">Add a voice <span style="opacity:.6">— optional</span></p>
+          <p class="ob-desc">Record a short message so CALMI can remember how they sounded. This will shape how CALMI speaks with you.</p>
+
+          <input class="voice-name-input" id="voicePersonName" type="text" placeholder="Whose voice is this? (e.g. Grandma)">
+
+          <button class="voice-btn" id="voiceBtn" title="Hold to record">🎙️</button>
+          <p class="voice-status" id="voiceStatus">Tap to start recording</p>
+
+          <button class="ob-btn" id="voiceNext" style="margin-top:0">Start Chatting →</button>
+          <button class="ob-skip" id="voiceSkip">Skip for now</button>
+        </div>
+
+      </div><!-- /onboarding -->
+
+      <!-- ══ CHAT SCREEN ═════════════════════════ -->
+      <div class="chat-screen" id="chatScreen">
+        <div class="chat-header">
+          <div class="calmi-avatar">
+            <img src="images/calmi.png" alt="CALMI">
+          </div>
+          <div class="chat-header-info">
+            <h4>CALMI</h4>
+            <span><span class="online-dot"></span>Always here</span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="quick-replies" id="quickReplies"></div>
+
+        <div class="chat-input-bar">
+          <input class="chat-input" id="chatInput" type="text" placeholder="Type a message…" autocomplete="off">
+          <button class="send-btn" id="sendBtn">➤</button>
         </div>
       </div>
 
-      <!-- Messages -->
-      <div class="chat-messages" id="chatMessages"></div>
+    </div><!-- /phone -->
 
-      <!-- Quick replies -->
-      <div class="quick-replies" id="quickReplies"></div>
-
-      <!-- Input -->
-      <div class="chat-input-bar">
-        <input
-          class="chat-input"
-          id="chatInput"
-          type="text"
-          placeholder="Type a message…"
-          autocomplete="off"
-        >
-        <button class="send-btn" id="sendBtn">➤</button>
-      </div>
-    </div>
-
-    <p class="demo-note">This is a scripted demo. The full CALMI experience uses AI-powered conversation.<br>
+    <p class="demo-note">
+      This is a scripted demo. The full CALMI experience uses AI-powered conversation.<br>
       <a href="https://docs.google.com/forms/d/1u--4lO0Mme1MExjLRsgUja7HMF2YsxgxfcS31DDlOsg/viewform"
          target="_blank" rel="noopener noreferrer"
-         style="color: var(--accent-cyan); text-decoration: none;">Join the waitlist</a> to be the first to try it.
+         style="color:var(--accent-cyan);text-decoration:none;">Join the waitlist</a> to be first.
     </p>
   </div>
 
@@ -349,73 +615,164 @@
   </footer>
 
   <script>
-    // ── Conversation script ──────────────────────
+    // ── Clock ──────────────────────────────────────
+    function getTime() {
+      const n = new Date();
+      return n.getHours().toString().padStart(2,'0') + ':' + n.getMinutes().toString().padStart(2,'0');
+    }
+    document.getElementById('clock').textContent = getTime();
+    setInterval(() => { document.getElementById('clock').textContent = getTime(); }, 30000);
+
+    // ── Hamburger ──────────────────────────────────
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    }));
+
+    // ── Onboarding state ───────────────────────────
+    let userName = '';
+    let voiceBlob = null;
+
+    function showSlide(id) {
+      document.querySelectorAll('.ob-slide').forEach(s => s.classList.remove('active'));
+      document.getElementById('slide-' + id).classList.add('active');
+    }
+
+    // Step 1 — Email
+    document.getElementById('emailNext').addEventListener('click', () => {
+      const val = document.getElementById('emailInput').value.trim();
+      const err = document.getElementById('emailError');
+      if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+        err.style.display = 'block'; return;
+      }
+      err.style.display = 'none';
+      showSlide('name');
+    });
+
+    document.getElementById('emailInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('emailNext').click();
+    });
+
+    // Step 2 — Name
+    document.getElementById('nameNext').addEventListener('click', () => {
+      const val = document.getElementById('nameInput').value.trim();
+      const err = document.getElementById('nameError');
+      if (!val) { err.style.display = 'block'; return; }
+      err.style.display = 'none';
+      userName = val;
+      showSlide('voice');
+    });
+
+    document.getElementById('nameInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('nameNext').click();
+    });
+
+    // Step 3 — Voice recording
+    let mediaRecorder = null;
+    let chunks = [];
+    let recording = false;
+
+    const voiceBtn    = document.getElementById('voiceBtn');
+    const voiceStatus = document.getElementById('voiceStatus');
+
+    voiceBtn.addEventListener('click', async () => {
+      if (recording) {
+        // Stop
+        mediaRecorder.stop();
+        recording = false;
+        voiceBtn.classList.remove('recording');
+        voiceBtn.textContent = '🎙️';
+        voiceStatus.textContent = 'Voice saved ✓ You can re-record or continue.';
+        return;
+      }
+      // Start
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        chunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          voiceBlob = new Blob(chunks, { type: 'audio/webm' });
+          stream.getTracks().forEach(t => t.stop());
+        };
+        mediaRecorder.start();
+        recording = true;
+        voiceBtn.classList.add('recording');
+        voiceBtn.textContent = '⏹️';
+        voiceStatus.textContent = 'Recording… tap again to stop.';
+      } catch {
+        voiceStatus.textContent = 'Microphone not available on this device.';
+      }
+    });
+
+    function startChat() {
+      document.getElementById('onboarding').style.display = 'none';
+      const chatScreen = document.getElementById('chatScreen');
+      chatScreen.classList.add('active');
+      calmiRespond();
+    }
+
+    document.getElementById('voiceNext').addEventListener('click', startChat);
+    document.getElementById('voiceSkip').addEventListener('click', startChat);
+
+    // ── Chat flow ──────────────────────────────────
     const FLOW = [
       {
-        from: 'calmi',
-        text: "Hi, I'm CALMI. I'm here to help you hold onto the people who matter most. Who would you like to remember today?",
-        replies: ["My grandmother", "My best friend", "Someone else"]
+        text: () => `Hi ${userName || 'there'} 💙 I'm CALMI — your remembrance companion. I'm here to help you hold onto the people who matter most. Who would you like to remember today?`,
+        replies: ["My grandmother", "My best friend", "My father", "Someone else"]
       },
       {
-        from: 'calmi',
-        text: "Thank you for sharing that with me. It takes courage to open up. What's one thing you loved most about them?",
+        text: () => "Thank you for sharing that with me. It takes courage to open up. What's one thing you loved most about them?",
         replies: ["Their laugh", "Their advice", "The way they made me feel safe", "Their stories"]
       },
       {
-        from: 'calmi',
-        text: "That's a beautiful memory 💙 Do you have a favourite moment you shared together that you'd like to keep close?",
+        text: () => "That's a beautiful memory 💙 Do you have a favourite moment you shared together that you'd like to keep close?",
         replies: ["Yes, I'd like to share it", "I'm not ready yet", "I want to remember something else"]
       },
       {
-        from: 'calmi',
-        text: "Whenever you're ready, this space is just for you — no pressure, no rush. How are you feeling right now?",
+        text: () => "Whenever you're ready, this space is just for you — no pressure, no rush. How are you feeling right now?",
         replies: ["Sad but grateful", "I miss them a lot", "I feel peaceful", "I'm not sure"]
       },
       {
-        from: 'calmi',
-        text: "Whatever you're feeling is completely okay. Grief isn't something to fix — it's something to carry with care. I'll be here every time you want to remember, reflect, or just feel close to them again. 🌷",
-        replies: ["Thank you, CALMI", "Tell me more about what you can do", "Join the waitlist"]
+        text: () => "Whatever you're feeling is completely okay. Grief isn't something to fix — it's something to carry with care. I'll be here every time you want to remember, reflect, or just feel close to them again. 🌷",
+        replies: ["Thank you, CALMI", "Tell me more", "Join the waitlist"]
       },
       {
-        from: 'calmi',
-        text: "Thank you for spending this moment with me 💙 CALMI is still growing. Join the waitlist to be among the first to experience the full companion.",
+        text: () => "Thank you for spending this moment with me 💙 CALMI is still growing. Join the waitlist to be among the first to experience the full companion.",
         replies: []
       }
     ];
 
     let step = 0;
-    const messagesEl = document.getElementById('chatMessages');
+    const messagesEl    = document.getElementById('chatMessages');
     const quickRepliesEl = document.getElementById('quickReplies');
-    const inputEl = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
+    const inputEl       = document.getElementById('chatInput');
+    const sendBtn       = document.getElementById('sendBtn');
 
-    function getTime() {
-      const now = new Date();
-      return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-    }
-
-    function addMessage(text, role, delay = 0) {
+    function addMessage(text, role) {
       return new Promise(resolve => {
         setTimeout(() => {
           const msg = document.createElement('div');
           msg.className = `msg ${role}`;
-          msg.innerHTML = `
-            <div class="msg-bubble">${text}</div>
-            <span class="msg-time">${getTime()}</span>
-          `;
+          msg.innerHTML = `<div class="msg-bubble">${text}</div><span class="msg-time">${getTime()}</span>`;
           messagesEl.appendChild(msg);
           messagesEl.scrollTop = messagesEl.scrollHeight;
           resolve();
-        }, delay);
+        }, 0);
       });
     }
 
     function showTyping() {
-      const typing = document.createElement('div');
-      typing.className = 'msg calmi';
-      typing.id = 'typingIndicator';
-      typing.innerHTML = `<div class="msg-bubble typing-bubble"><span></span><span></span><span></span></div>`;
-      messagesEl.appendChild(typing);
+      const t = document.createElement('div');
+      t.className = 'msg calmi'; t.id = 'typingIndicator';
+      t.innerHTML = `<div class="msg-bubble typing-bubble"><span></span><span></span><span></span></div>`;
+      messagesEl.appendChild(t);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
@@ -438,15 +795,14 @@
     async function calmiRespond() {
       if (step >= FLOW.length) return;
       const node = FLOW[step];
+      const text = node.text();
       setQuickReplies([]);
       showTyping();
-      await new Promise(r => setTimeout(r, 1000 + node.text.length * 10));
+      await new Promise(r => setTimeout(r, 900 + text.length * 8));
       removeTyping();
-      await addMessage(node.text, 'calmi');
+      await addMessage(text, 'calmi');
       step++;
-      if (node.replies && node.replies.length) {
-        setQuickReplies(node.replies);
-      }
+      if (node.replies && node.replies.length) setQuickReplies(node.replies);
     }
 
     async function handleReply(text) {
@@ -470,32 +826,6 @@
 
     sendBtn.addEventListener('click', handleSend);
     inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
-
-    // Live clock
-    function updateClock() {
-      document.getElementById('clock').textContent = getTime();
-    }
-    setInterval(updateClock, 30000);
-    updateClock();
-
-    // Start
-    calmiRespond();
-
-     // Hamburger menu
-    const toggle = document.getElementById('navToggle');
-    const links  = document.getElementById('navLinks');
-    if (toggle && links) {
-      toggle.addEventListener('click', () => {
-        toggle.classList.toggle('open');
-        links.classList.toggle('open');
-      });
-      links.querySelectorAll('a').forEach(a =>
-        a.addEventListener('click', () => {
-          toggle.classList.remove('open');
-          links.classList.remove('open');
-        })
-      );
-    }
   </script>
 </body>
 </html>
