@@ -549,7 +549,36 @@
       });
     }, { threshold: 0.2 });
  
-    observer.observe(document.querySelector('.research-section'));
+    // ── Fetch live data từ Google Apps Script ───
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwhwlzFovhF96aoCQDnDP0gWn7xWOkUnOjP7WQkAruCaL9HVPV9ZkEe6qrWxMsJ7GCW/exec';
+
+    fetch(SHEET_URL)
+      .then(r => r.json())
+      .then(data => {
+        if (data.pctLost)
+          document.querySelector('[data-target="85"]').dataset.target = data.pctLost;
+        if (data.pctWantToTalk)
+          document.querySelector('[data-target="78"]').dataset.target = data.pctWantToTalk;
+        if (data.avgIntensity)
+          document.querySelector('[data-target="4.2"]').dataset.target = data.avgIntensity;
+        if (data.totalResponses)
+          document.getElementById('responseCount').textContent = data.totalResponses + ' responses';
+      })
+      .catch(() => {})
+      .finally(() => {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              animateCounters();
+              animateBars();
+              animateIntensity();
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+
+        observer.observe(document.querySelector('.research-section'));
+      });
  
     // Hamburger menu
     const toggle = document.getElementById('navToggle');
