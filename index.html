@@ -15,6 +15,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">Product</a></li>
+      <li><a href="research.html">Research</a></li>
       <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="demo.html">Try Demo</a></li>
@@ -53,39 +54,66 @@
     </p>
   </section>
 
-  <!-- Problem + Approach -->
-  <section class="page-section two-col-section">
-    <div class="content-box">
-      <h3>The Problem</h3>
-      <p>Many teenagers and young adults experience grief during important stages of their lives. Despite living in a highly connected digital world, many still struggle to talk openly about emotional pain.</p>
-      <p style="margin-top: 12px;">Students often hesitate to share their grief with family, friends, or counselors because they fear being judged or do not want to burden others.</p>
+  <!-- Background & Problem -->
+  <section class="page-section">
+    <h2 class="section-label">Background &amp; Significance</h2>
+    <div class="content-grid-top" style="margin-bottom: 20px;">
+      <div class="content-box">
+        <h3>The Problem</h3>
+        <p>Grief is a universal human experience — yet it remains one of the most underserved areas in mental health support, especially for teenagers and young adults. During critical years of psychological development, the loss of a significant person can compound challenges and lead to long-term emotional difficulties if left unaddressed.</p>
+      </div>
+      <div class="content-box">
+        <h3>The Gap</h3>
+        <p>Despite the prevalence of grief among young people, many don't seek help. Barriers include social stigma, discomfort with vulnerability, and the cost of professional services. Most existing digital tools are not designed for youth, nor do they focus on <strong>remembrance</strong> as a healthy ongoing practice.</p>
+      </div>
+      <div class="content-box">
+        <h3>Our Approach</h3>
+        <p>Through surveys (n=23) and user interviews, we learned that <strong>78% of young adults</strong> still wish they could talk to the person they lost — even years later. CALMI was built around this insight: grief isn't something to close, it's something to carry with care.</p>
+      </div>
     </div>
-    <div class="content-box">
-      <h3>Our Approach</h3>
-      <p>Our team explored how digital tools could help bridge the emotional support gap for young people. Through research and surveys, we investigated how students cope with loss and whether they would feel comfortable interacting with an AI companion.</p>
-      <p class="cta-wrap" style="margin-top: 20px;">
-        <a href="about.html#research" class="btn-primary">See Research</a>
+    <div class="content-box" style="text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,212,255,0.04) 0%, transparent 70%);">
+      <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.8; max-width: 680px; margin: 0 auto 20px;">
+        <strong style="color: var(--text-primary);">85%</strong> of respondents had experienced significant loss ·
+        <strong style="color: var(--text-primary);">56%</strong> had never sought professional support ·
+        Average grief intensity: <strong style="color: var(--text-primary);">4.2 / 10</strong> — regardless of how long ago the loss occurred.
       </p>
+      <a href="research.html" class="btn-primary">View Full Research ↗</a>
     </div>
   </section>
+
+  <!-- Interactive Demo -->
+  <section class="page-section prototype-section">
+    <h2 class="section-label">Try CALMI</h2>
+    <p class="prototype-desc">Experience a preview of your remembrance companion — right here.</p>
+    <div class="demo-embed-wrap">
+      <iframe
+        src="demo-embed.html"
+        class="demo-iframe"
+        title="CALMI Interactive Demo"
+        scrolling="no"
+        frameborder="0"
+      ></iframe>
+    </div>
+    <p class="prototype-link">
+      <a href="demo.html" class="btn-primary">Open Full Demo ↗</a>
+    </p>
+  </section>
+
   <footer>
-    <p>© 2026 CALMI. All Rights Reserved.</p>
+    <nav class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">Product</a>
+      <a href="research.html">Research</a>
+      <a href="team.html">Team</a>
+      <a href="contact.html">Contact</a>
+      <a href="demo.html">Try Demo</a>
+    </nav>
+    <div class="footer-bottom">
+      <p>© 2026 CALMI. All Rights Reserved. &nbsp;·&nbsp;
+        <a href="https://github.com/ynhi27/calmi-design" target="_blank" rel="noopener noreferrer"
+           style="color: var(--accent-cyan); text-decoration: none;">GitHub ↗</a>
+      </p>
+    </div>
   </footer>
-    <script>
-    const toggle = document.getElementById('navToggle');
-    const links  = document.getElementById('navLinks');
-    if (toggle && links) {
-      toggle.addEventListener('click', () => {
-        toggle.classList.toggle('open');
-        links.classList.toggle('open');
-      });
-      links.querySelectorAll('a').forEach(a =>
-        a.addEventListener('click', () => {
-          toggle.classList.remove('open');
-          links.classList.remove('open');
-        })
-      );
-    }
-  </script>
 </body>
 </html>

@@ -163,13 +163,6 @@ body::before {
   animation: float 6s ease-in-out infinite;
 }
 
-.calmi-avatar {
-  width: 25px;
-  height: 25px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-12px); }
@@ -267,7 +260,7 @@ body::before {
 .page-section {
   max-width: 1000px;
   margin: 60px auto;
-  padding: 24px;
+  padding: 24px 24px 60px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -299,6 +292,13 @@ body::before {
   border: 1px solid var(--border);
   text-align: left;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  margin-bottom: 20px;
+}
+
+/* Prevent margin collapse between stacked content-boxes */
+.page-section > .content-box + .content-box,
+.page-section > div + .content-box {
+  margin-top: 20px;
 }
 
 .content-box:hover {
@@ -492,18 +492,89 @@ body::before {
   margin-bottom: 16px;
 }
 
+/* ─── CALMI Avatar image ─────────────────────── */
+/* nền đen trong ảnh bị ẩn bằng mix-blend-mode   */
+.calmi-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #000;          /* nền đen để lighten hoạt động */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.calmi-avatar img {
+  width: 130%;               /* zoom nhẹ để robot lấp đầy khung */
+  height: 130%;
+  object-fit: cover;
+  object-position: 50% 20%; /* crop phần đầu robot */
+  border-radius: 0;
+}
+
 /* ─── Footer ─────────────────────────────────── */
 footer {
   background: rgba(6, 6, 12, 0.95);
   border-top: 1px solid var(--border);
   color: var(--text-muted);
-  text-align: center;
-  padding: 24px;
+  padding: 40px 40px 24px;
   margin-top: 60px;
   font-size: 0.9rem;
   letter-spacing: 0.02em;
   position: relative;
   z-index: 1;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 4px;
+  margin-bottom: 28px;
+}
+
+.footer-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.footer-nav a:hover {
+  color: var(--accent-cyan);
+  border-color: var(--border);
+  box-shadow: var(--glow-cyan);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  footer {
+    padding: 32px 20px 20px;
+  }
+
+  .footer-nav {
+    gap: 6px 2px;
+  }
+
+  .footer-nav a {
+    font-size: 0.78rem;
+    padding: 7px 12px;
+  }
 }
 
 /* ─── Team 4-column override ─────────────────── */
@@ -619,13 +690,6 @@ footer {
   border-radius: 0;
   background: transparent;
   max-width: 100%;
-}
-
-.calmi-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
 }
 
 .prototype-link {
@@ -851,5 +915,62 @@ footer {
 
   .stat-number {
     font-size: 1.9rem;
+  }
+}
+
+/* ─── Evidence / Source Code box ────────────── */
+.evidence-box h3 {
+  margin-bottom: 10px;
+}
+
+.evidence-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.evidence-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  text-decoration: none;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+
+.evidence-btn:hover {
+  border-color: var(--accent-cyan-dim);
+  box-shadow: var(--glow-cyan);
+  transform: translateY(-2px);
+}
+
+.evidence-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.evidence-btn strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.evidence-btn small {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+  .evidence-links {
+    grid-template-columns: 1fr;
   }
 }
